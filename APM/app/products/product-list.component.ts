@@ -19,6 +19,8 @@ export class ProductListComponent
 	imageMargin: number = 2;
 	showImage: boolean = false;
 	listFilter: string;
+	errorMessage: string;
+
 	products: IProduct[];
 
 	constructor(private _productService: ProductService) {
@@ -30,7 +32,10 @@ export class ProductListComponent
 	}
 
 	ngOnInit(): void {
-		this.products = this._productService.getProducts();
+		this._productService.getProducts()
+			.subscribe(
+				products => this.products = products,
+				error => this.errorMessage = error);
 	}
 	onRatingClicked(message: string): void {
 		this.pageTitle = 'Product List: ' + message;
